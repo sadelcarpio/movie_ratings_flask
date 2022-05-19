@@ -1,20 +1,21 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
 from bs4 import BeautifulSoup
 from .models import Movie
-import os, requests
+import os
+import requests
 from . import db
 
 IMDB_API = 'https://imdb-api.com/en/API/SearchMovie/{}/'.format(os.environ.get('API_KEY'))
-IMDB_MOVIE_URL = 'http://imdb.com/title/'
+IMDB_MOVIE_URL = 'https://imdb.com/title/'
 
 movies = Blueprint('movies', __name__)
 
+
 @movies.route('/all', methods=['GET'])
 def movies_get():
-    movies = Movie.query.all()
+    all_movies = Movie.query.all()
     result = []
-    for movie in movies:
+    for movie in all_movies:
         result.append({
             'imdb_id': movie.imdb_id,
             'year': movie.year,
@@ -24,13 +25,14 @@ def movies_get():
         })
     return jsonify(result)
 
+
 @movies.route('/search', methods=['POST'])
 def movie_search():
     movie = request.get_json(force=True)['searchMovie']
-    headers = {}
-    headers["Content-Type"] = "application/x-www-form-urlencoded"
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
     response = requests.get(IMDB_API + movie, headers=headers)
     return response.json(), 200
+
 
 @movies.route('/create', methods=['POST'])
 def movie_create():

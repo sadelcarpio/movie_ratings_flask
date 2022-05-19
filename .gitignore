@@ -3,3 +3,5 @@ __pycache__
 .env
 requests.http
 movie_ratings.sqlite
+/.idea/
+/http-client.env.json

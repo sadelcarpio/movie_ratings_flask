@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from . import db
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -8,6 +9,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000), unique=True)
     reviews = db.relationship('Review', backref='user', lazy=True)
+
 
 class Movie(db.Model):
     __tablename__ = 'movie'
@@ -17,6 +19,7 @@ class Movie(db.Model):
     plot = db.Column(db.String(1000))
     img_url = db.Column(db.String(1000))
     reviews = db.relationship('Review', backref='movie', lazy=True)
+
 
 class Review(db.Model):
     __tablename__ = 'review'

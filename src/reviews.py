@@ -1,8 +1,5 @@
-from unittest import result
 from flask import Blueprint, jsonify, request
-from flask_login import login_user
-from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, Review, Movie
+from .models import User, Review
 from . import db
 
 reviews = Blueprint('reviews', __name__)
@@ -11,15 +8,16 @@ reviews = Blueprint('reviews', __name__)
 @reviews.route('/all/<movie_id>', methods=['GET'])
 def get_reviews(movie_id):
     result = []
-    reviews = Review.query.filter_by(movie_id=movie_id)
-    for review in reviews:
-       user = User.query.filter_by(id=review.user_id).first()
-       result.append({
-           'user': user.name,
-           'review_content': review.review_content,
-           'stars': review.stars,
-       })
+    movie_review = Review.query.filter_by(movie_id=movie_id)
+    for review in movie_review:
+        user = User.query.filter_by(id=review.user_id).first()
+        result.append({
+            'user': user.name,
+            'review_content': review.review_content,
+            'stars': review.stars,
+        })
     return jsonify(result), 200
+
 
 @reviews.route('/create', methods=['POST'])
 def create_review():

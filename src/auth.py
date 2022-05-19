@@ -23,6 +23,7 @@ def signup_post():
     
     return jsonify(['Usuario creado con éxito']), 201
 
+
 @auth.route('/login', methods=['POST'])
 def login_post():
     json_data = request.get_json(force=True)
