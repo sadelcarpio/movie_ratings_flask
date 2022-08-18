@@ -30,4 +30,3 @@ def create_app():
     app.register_blueprint(movies_blueprint, url_prefix='/movie')
     app.register_blueprint(reviews_blueprint, url_prefix='/review')
     return app
-    

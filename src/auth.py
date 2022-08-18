@@ -16,7 +16,8 @@ def signup_post():
     user = User.query.filter_by(email=email).first()
     if user:
         return jsonify(['El usuario ya existe']), 409
-    
+
+    # noinspection PyArgumentList
     new_user = User(email=email, name=username, password=generate_password_hash(password, method='sha256'))
     db.session.add(new_user)
     db.session.commit()
